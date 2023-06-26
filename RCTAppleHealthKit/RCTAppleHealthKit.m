@@ -22,7 +22,6 @@
 #import "RCTAppleHealthKit+Methods_LabTests.h"
 #import "RCTAppleHealthKit+Methods_Hearing.h"
 #import "RCTAppleHealthKit+Methods_Summary.h"
-#import "RCTAppleHealthKit+Methods_ClinicalRecords.h"
 
 #import <React/RCTBridgeModule.h>
 #import <React/RCTEventDispatcher.h>
@@ -523,8 +522,6 @@ RCT_EXPORT_METHOD(getActivitySummary: (NSDictionary *)input callback:(RCTRespons
 
 RCT_EXPORT_METHOD(getClinicalRecords:(NSDictionary *)input callback:(RCTResponseSenderBlock)callback)
 {
-    [self _initializeHealthStore];
-    [self clinicalRecords_getClinicalRecords:input callback:callback];
 }
 
 - (HKHealthStore *)_initializeHealthStore {
@@ -725,21 +722,6 @@ RCT_EXPORT_METHOD(getClinicalRecords:(NSDictionary *)input callback:(RCTResponse
 
         for(NSString * type in fitnessObservers) {
             [self fitness_registerObserver:type bridge:bridge hasListeners:hasListeners];
-        }
-        
-        NSArray *clinicalObservers = @[
-            @"AllergyRecord",
-            @"ConditionRecord",
-            @"CoverageRecord",
-            @"ImmunizationRecord",
-            @"LabResultRecord",
-            @"MedicationRecord",
-            @"ProcedureRecord",
-            @"VitalSignRecord"
-        ];
-        
-        for(NSString * type in clinicalObservers) {
-            [self clinical_registerObserver:type bridge:bridge hasListeners:hasListeners];
         }
 
         NSLog(@"[HealthKit] Background observers added to the app");
